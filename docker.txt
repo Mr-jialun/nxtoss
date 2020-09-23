@@ -1,6 +1,6 @@
 创建镜像
 
-docker build --tag newxton_oss:0.0.1 .
+docker build --tag newxton_oss:0.0.2 .
 
 
 
