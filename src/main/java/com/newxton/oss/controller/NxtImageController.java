@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 @RestController
 public class NxtImageController {
 
-    @Value("${newxton.config.oss.path}")
-    private String ossPath;
+    @Value("${newxton.config.oss.pathPublic}")
+    private String ossPathPublic;
 
     /**
      * 输出图片
@@ -58,7 +58,7 @@ public class NxtImageController {
 
         String imageStyle = request.getQueryString();
 
-        imageUrl = this.ossPath + "/public" + imageUrl;
+        imageUrl = this.ossPathPublic + imageUrl;
 
         //兼容windows
         imageUrl = imageUrl.replace("/",File.separator);

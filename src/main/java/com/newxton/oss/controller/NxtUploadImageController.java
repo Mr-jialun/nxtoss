@@ -21,8 +21,8 @@ import java.util.Random;
 @RestController
 public class NxtUploadImageController {
 
-    @Value("${newxton.config.oss.path}")
-    private String ossPath;
+    @Value("${newxton.config.oss.pathPublic}")
+    private String ossPathPublic;
 
     @Value("${newxton.config.oss.secretKey}")
     private String ossSecretKey;
@@ -54,10 +54,10 @@ public class NxtUploadImageController {
             String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
             String savePath = new SimpleDateFormat("/yyyy/MM/dd").format(new Date(System.currentTimeMillis()));
             String saveFilename = String.valueOf(new Random().nextInt(1000000000)+1000000000)+"."+suffix;
-            this.createDir(this.ossPath + "/public/" + savePath);
+            this.createDir(this.ossPathPublic + savePath);
             try {
                 String url = savePath + "/" + saveFilename;
-                String filePath = this.ossPath + "/public" + savePath + "/" + saveFilename;
+                String filePath = this.ossPathPublic + savePath + "/" + saveFilename;
                 filePath = filePath.replace("/",File.separator);//兼容windows
                 File file = new File(filePath);
                 byte[] bytes = multipartFile.getBytes();

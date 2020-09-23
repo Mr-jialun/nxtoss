@@ -20,7 +20,7 @@ services:
     volumes:
         - ./oss:/newxton_oss
         #这是挂载文件目录
-    command: ["java", "-jar", "-Xms500m","-Xmx1500m", "/run.jar", "--newxton.config.oss.path=/newxton_oss", "--newxton.config.oss.secretKey=83lgvkHJU23"]
+    command: ["java", "-jar", "-Xms500m","-Xmx1500m", "/run.jar", "--newxton.config.oss.pathPublic=/newxton_oss", "--newxton.config.oss.secretKey=83lgvkHJU23"]
   nginx:
     container_name: container_newxton_oss_nginx
     image: nginx
