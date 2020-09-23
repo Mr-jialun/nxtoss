@@ -28,7 +28,7 @@ typora-copy-images-to: ./readme/resource
 
 **缩放、剪裁的指令使用方法完全和七牛云一样，但仅包含以上两个最常用的指令（基本足够用了），其它的指令后续再添加。**
 
-![image-20200923200946682](readme/resource/image-20200923200946682.png)
+![image-20200923201601326](readme/resource/image-20200923201601326.png)
 
 
 
