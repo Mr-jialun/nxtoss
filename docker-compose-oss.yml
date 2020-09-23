@@ -17,7 +17,7 @@ services:
         protocol: tcp
         mode: host
     restart: always
-    command: ["java", "-jar", "-Xms500m","-Xmx1500m", "/run.jar", "--newxton.config.oss.path=/Users/nap/Project_OpenSource/newxton_oss/oss", "--newxton.config.oss.secretKey=83lgvkHJU23"]
+    command: ["java", "-jar", "-Xms500m","-Xmx1500m", "/run.jar", "--newxton.config.oss.path=/newxton_oss", "--newxton.config.oss.secretKey=83lgvkHJU23"]
   nginx:
     container_name: container_newxton_oss_nginx
     image: nginx
