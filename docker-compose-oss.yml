@@ -10,7 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   springboot-newxton-oss:
     container_name: container_newxton_oss
-    image: soyojoearth/newxton_oss:0.0.2
+    image: soyojoearth/newxton_oss:0.0.3
     ports:
       - target: 8080
         published: 8079
