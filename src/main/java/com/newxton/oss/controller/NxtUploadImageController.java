@@ -58,7 +58,6 @@ public class NxtUploadImageController {
             try {
                 String url = savePath + "/" + saveFilename;
                 String filePath = this.ossPathPublic + savePath + "/" + saveFilename;
-                filePath = filePath.replace("/",File.separator);//兼容windows
                 File file = new File(filePath);
                 byte[] bytes = multipartFile.getBytes();
                 OutputStream os = new FileOutputStream(file);
@@ -80,8 +79,6 @@ public class NxtUploadImageController {
     }
 
     public boolean createDir(String destDirName) {
-        //兼容windows
-        destDirName = destDirName.replace("/",File.separator);
         File dir = new File(destDirName);
         if (dir.exists()) {
 //            System.out.println(destDirName + "目标目录已经存在");

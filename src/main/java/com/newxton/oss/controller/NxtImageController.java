@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,10 +59,17 @@ public class NxtImageController {
 
         String imageStyle = request.getQueryString();
 
-        imageUrl = this.ossPathPublic + imageUrl;
+        if (imageStyle == null || imageStyle.isEmpty()){
+            //_imageview2_type1_w50_h150_q75.png（这里兼容Nginx Rewrite过来的地址）
+            String patternString = "(.*?)_(imageview2)_type(\\d+?)_w(\\d+?)_h(\\d+?)_q(\\d+)";
+            Matcher m = Pattern.compile(patternString).matcher(imageUrl);
+            if (m.find()) {
+                imageStyle = "imageView2/"+m.group(3)+"/w/"+m.group(4)+"/h/"+m.group(5)+"/q/"+m.group(6);
+                imageUrl = m.group(1);
+            }
+        }
 
-        //兼容windows
-        imageUrl = imageUrl.replace("/",File.separator);
+        imageUrl = this.ossPathPublic + imageUrl;
 
         //初始化对象、检查文件是否存在
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -150,6 +158,28 @@ public class NxtImageController {
                             .outputFormat(formatName)
                             .toOutputStream(outputStream);
                 }
+            }
+        }
+
+        //保存缓存图片
+        if (imageStyle != null && !imageStyle.isEmpty() && outputStream.toByteArray().length > 0) {
+            String suffix = imageUrl.substring(imageUrl.lastIndexOf(".") + 1).toLowerCase();
+            String filePath = imageUrl + "_" + imageStyle.replace("imageView2/", "imageView2_type")
+                    .replace("/w/","_w")
+                    .replace("/h/","_h")
+                    .replace("/q/","_q")
+                    + "." + suffix;
+            String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+            try {
+                File file = new File(filePath);
+                byte[] bytes = outputStream.toByteArray();
+                OutputStream os = new FileOutputStream(file);
+                os.write(bytes);
+                os.close();
+                System.out.println("生成文件" + fileName);
+            } catch (Exception e) {
+                System.out.println("Exception: " + e);
+                System.out.println("生成文件Fail" + fileName);
             }
         }
 

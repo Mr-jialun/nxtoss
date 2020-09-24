@@ -10,7 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   springboot-newxton-oss:
     container_name: container_newxton_oss
-    image: soyojoearth/newxton_oss:0.0.3
+    image: soyojoearth/newxton_oss:0.0.4
     ports:
       - target: 8080
         published: 8079
@@ -18,9 +18,9 @@ services:
         mode: host
     restart: always
     volumes:
-        - ./oss:/newxton_oss
+        - ./oss_public:/oss_public
         #这是挂载文件目录
-    command: ["java", "-jar", "-Xms500m","-Xmx1500m", "/run.jar", "--newxton.config.oss.pathPublic=/newxton_oss", "--newxton.config.oss.secretKey=83lgvkHJU23"]
+    command: ["java", "-jar", "-Xms500m","-Xmx1500m", "/run.jar", "--newxton.config.oss.pathPublic=/oss_public", "--newxton.config.oss.secretKey=83lgvkHJU23"]
   nginx:
     container_name: container_newxton_oss_nginx
     image: nginx
@@ -34,6 +34,8 @@ services:
         protocol: tcp
         mode: host
     volumes:
+      - ./oss_public:/oss_public:ro
+      #这是挂载文件目录
       - ./http/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./http/oss_ssl_cert.key:/oss_ssl_cert.key:ro
       - ./http/oss_ssl_cert.pem:/oss_ssl_cert.pem:ro
